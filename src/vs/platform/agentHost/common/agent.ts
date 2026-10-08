@@ -1571,6 +1571,18 @@ export interface IAgent {
 	/** Reconcile receipt-owned installations and return the refreshed inventory. */
 	recoverCustomizationInstallations?(session: URI): Promise<readonly IAgentCustomizationInstallation[]>;
 
+	/** Discover executable extensions from the provider's persisted inventory. */
+	listAgentExtensions?(): Promise<IAgentExtensionInventory>;
+
+	/** Persist extension enablement and update one live session when supplied. */
+	setAgentExtensionEnabled?(extensionId: string, enabled: boolean, session?: URI): Promise<void>;
+
+	/** List canvas declarations available to one initialized provider session. */
+	listSessionCanvases?(session: URI): Promise<readonly IAgentCanvasInfo[]>;
+
+	/** Reconcile extension membership, then list the session's canvas declarations. */
+	refreshSessionCanvases?(session: URI): Promise<readonly IAgentCanvasInfo[]>;
+
 	/** Capture the current account without allowing a later account to relabel an in-flight turn. */
 	getTelemetryContext?(): IAgentTelemetryContext;
 
