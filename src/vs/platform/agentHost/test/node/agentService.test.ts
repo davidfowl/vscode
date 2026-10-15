@@ -431,6 +431,7 @@ class TransientRegistryWriteDatabase extends SessionStateUnsupportedDatabase imp
 	async removePrivateChatV2(..._args: Parameters<IAgentHostDatabase['removePrivateChatV2']>): ReturnType<IAgentHostDatabase['removePrivateChatV2']> { return { status: 'notReady' }; }
 	async moveChatV2(..._args: Parameters<IAgentHostDatabase['moveChatV2']>): ReturnType<IAgentHostDatabase['moveChatV2']> { return { status: 'notReady' }; }
 	async promoteChatV2(..._args: Parameters<IAgentHostDatabase['promoteChatV2']>): ReturnType<IAgentHostDatabase['promoteChatV2']> { return { status: 'notReady' }; }
+	async listMovedChatsV2(): ReturnType<IAgentHostDatabase['listMovedChatsV2']> { return new Map(); }
 	async reorderChatV2(..._args: Parameters<IAgentHostDatabase['reorderChatV2']>): ReturnType<IAgentHostDatabase['reorderChatV2']> { return { status: 'notReady' }; }
 	upsertSessionV2FromChatCatalog(...[envelope, expectedSessionGeneration]: Parameters<IAgentHostDatabase['upsertSessionV2FromChatCatalog']>): ReturnType<IAgentHostDatabase['upsertSessionV2FromChatCatalog']> {
 		return this.upsertSessionV2(envelope, expectedSessionGeneration);
@@ -975,6 +976,7 @@ class TestAgentHostOrchestratorDatabase extends SessionStateUnsupportedDatabase 
 	async removePrivateChatV2(..._args: Parameters<IAgentHostDatabase['removePrivateChatV2']>): ReturnType<IAgentHostDatabase['removePrivateChatV2']> { return { status: 'notReady' }; }
 	async moveChatV2(..._args: Parameters<IAgentHostDatabase['moveChatV2']>): ReturnType<IAgentHostDatabase['moveChatV2']> { return { status: 'notReady' }; }
 	async promoteChatV2(..._args: Parameters<IAgentHostDatabase['promoteChatV2']>): ReturnType<IAgentHostDatabase['promoteChatV2']> { return { status: 'notReady' }; }
+	async listMovedChatsV2(): ReturnType<IAgentHostDatabase['listMovedChatsV2']> { return new Map(); }
 	async reorderChatV2(..._args: Parameters<IAgentHostDatabase['reorderChatV2']>): ReturnType<IAgentHostDatabase['reorderChatV2']> { return { status: 'notReady' }; }
 	upsertSessionV2FromChatCatalog(...[envelope, expectedSessionGeneration]: Parameters<IAgentHostDatabase['upsertSessionV2FromChatCatalog']>): ReturnType<IAgentHostDatabase['upsertSessionV2FromChatCatalog']> {
 		return this.upsertSessionV2(envelope, expectedSessionGeneration);
@@ -30184,6 +30186,8 @@ suite('AgentService (node dispatcher)', () => {
 
 				const agent = new MovingAgent('copilot');
 				const restarted = createService(agent);
+				await restarted.listSessions();
+				const origin = getStateManager(restarted).getMovedChatOrigin(peer.toString());
 				await restarted.restoreSession(target);
 
 				const state = getStateManager(restarted).getSessionState(target.toString());
@@ -30193,11 +30197,14 @@ suite('AgentService (node dispatcher)', () => {
 					materialized: agent.materialized.filter(entry => entry.chat === peer.toString()),
 					// The provider reads the chat's own storage, not a database at the new session's URI.
 					metadataStorage: [...new Set(agent.metadataStorage)],
+					// Older clients see a chat only in the session it was created in, also after a restart.
+					origin,
 				}, {
 					defaultChat: peer.toString(),
 					chats: [peer.toString()],
 					materialized: [{ chat: peer.toString(), providerData: 'peer-backing' }],
 					metadataStorage: [peer.toString()],
+					origin: source.toString(),
 				});
 			});
 
