@@ -428,6 +428,7 @@ class TransientRegistryWriteDatabase extends SessionStateUnsupportedDatabase imp
 	async insertPrivateChatV2(..._args: Parameters<IAgentHostDatabase['insertPrivateChatV2']>): ReturnType<IAgentHostDatabase['insertPrivateChatV2']> { return { status: 'notReady' }; }
 	async removePrivateChatV2(..._args: Parameters<IAgentHostDatabase['removePrivateChatV2']>): ReturnType<IAgentHostDatabase['removePrivateChatV2']> { return { status: 'notReady' }; }
 	async moveChatV2(..._args: Parameters<IAgentHostDatabase['moveChatV2']>): ReturnType<IAgentHostDatabase['moveChatV2']> { return { status: 'notReady' }; }
+	async promoteChatV2(..._args: Parameters<IAgentHostDatabase['promoteChatV2']>): ReturnType<IAgentHostDatabase['promoteChatV2']> { return { status: 'notReady' }; }
 	async reorderChatV2(..._args: Parameters<IAgentHostDatabase['reorderChatV2']>): ReturnType<IAgentHostDatabase['reorderChatV2']> { return { status: 'notReady' }; }
 	upsertSessionV2FromChatCatalog(...[envelope, expectedSessionGeneration]: Parameters<IAgentHostDatabase['upsertSessionV2FromChatCatalog']>): ReturnType<IAgentHostDatabase['upsertSessionV2FromChatCatalog']> {
 		return this.upsertSessionV2(envelope, expectedSessionGeneration);
@@ -971,6 +972,7 @@ class TestAgentHostOrchestratorDatabase extends SessionStateUnsupportedDatabase 
 	async insertPrivateChatV2(..._args: Parameters<IAgentHostDatabase['insertPrivateChatV2']>): ReturnType<IAgentHostDatabase['insertPrivateChatV2']> { return { status: 'notReady' }; }
 	async removePrivateChatV2(..._args: Parameters<IAgentHostDatabase['removePrivateChatV2']>): ReturnType<IAgentHostDatabase['removePrivateChatV2']> { return { status: 'notReady' }; }
 	async moveChatV2(..._args: Parameters<IAgentHostDatabase['moveChatV2']>): ReturnType<IAgentHostDatabase['moveChatV2']> { return { status: 'notReady' }; }
+	async promoteChatV2(..._args: Parameters<IAgentHostDatabase['promoteChatV2']>): ReturnType<IAgentHostDatabase['promoteChatV2']> { return { status: 'notReady' }; }
 	async reorderChatV2(..._args: Parameters<IAgentHostDatabase['reorderChatV2']>): ReturnType<IAgentHostDatabase['reorderChatV2']> { return { status: 'notReady' }; }
 	upsertSessionV2FromChatCatalog(...[envelope, expectedSessionGeneration]: Parameters<IAgentHostDatabase['upsertSessionV2FromChatCatalog']>): ReturnType<IAgentHostDatabase['upsertSessionV2FromChatCatalog']> {
 		return this.upsertSessionV2(envelope, expectedSessionGeneration);
