@@ -54,6 +54,7 @@ import {
 	IAgentCustomizationInstallationReview,
 	IAgentCustomizationMarketplaceSearchRequest,
 	IAgentCustomizationMarketplaceSearchResult,
+	type IAgentExtensionInventory,
 	IAgentHostInspectInfo,
 	type IAgentHostDebugLogsArtifact,
 	IAgentHostManagementService,
@@ -531,6 +532,14 @@ export class LocalAgentHostServiceClient extends Disposable implements IAgentHos
 
 	uninstallPlugin(provider: string, request: IAgentPluginUninstallRequest, session?: URI, chat?: URI): Promise<void> {
 		return this._getManagementService().uninstallPlugin(provider, request, session, chat);
+	}
+
+	listAgentExtensions(): Promise<IAgentExtensionInventory> {
+		return this._getManagementService().listAgentExtensions();
+	}
+
+	setAgentExtensionEnabled(extensionId: string, enabled: boolean, session?: URI, chat?: URI): Promise<void> {
+		return this._getManagementService().setAgentExtensionEnabled(extensionId, enabled, session, chat);
 	}
 
 	listSessionCanvases(session: URI, chat: URI): Promise<readonly IAgentCanvasInfo[]> {
