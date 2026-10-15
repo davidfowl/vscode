@@ -658,6 +658,7 @@ class TestSessionDataService extends Disposable implements ISessionDataService {
 	}
 
 	deleteSessionData(): Promise<void> { return Promise.resolve(); }
+	deleteSessionDataExcept(): Promise<void> { return Promise.resolve(); }
 	readonly onWillDeleteSessionData = Event.None;
 	cleanupOrphanedData(): Promise<void> { return Promise.resolve(); }
 	async whenIdle(): Promise<void> {
